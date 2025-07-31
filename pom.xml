@@ -40,6 +40,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.github.spotbugs</groupId>
+			<artifactId>spotbugs</artifactId>
+			<version>4.9.3</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -52,18 +57,26 @@
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
 				<version>4.9.3.2</version>
+				<executions>
+					<execution>
+						<phase>verify</phase>
+						<goals>
+							<goal>spotbugs</goal>
+						</goals>
+					</execution>
+				</executions>
 				<configuration>
+					<effort>Max</effort>
+					<threshold>Low</threshold>
+					<failOnError>true</failOnError>
+					<xmlOutput>true</xmlOutput>
 					<htmlOutput>true</htmlOutput>
+					<xmlOutputDirectory>${project.build.directory}/spotbugs</xmlOutputDirectory>
+					<outputDirectory>${project.build.directory}/spotbugs</outputDirectory>
+					<includeFilterFile>${project.basedir}/config/spotbugs-include.xml</includeFilterFile>
+					<excludeFilterFile>${project.basedir}/config/spotbugs-exclude.xml</excludeFilterFile>
 				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>com.github.spotbugs</groupId>
-						<artifactId>spotbugs</artifactId>
-						<version>4.9.3</version>
-					</dependency>
-				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
-
 </project>
